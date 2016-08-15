@@ -60,7 +60,7 @@
                 <c:set value="${monitorDo.handleAutentificacion(monitor)}" var="autentication" />
                 <c:set value="${autentication.activo}" var="activo"/>
                 <c:if test="${activo}">
-                    <!-- aqui es la variable de session ->
+                    <!-- aqui es la variable de session -->
                     <c:set value="${monitorDo.handleAutentificacion(monitor)}" var="sessionmonitor" scope="session"/>
                 </c:if> 
             </c:if>
