@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.Map.Entry;
 import java.util.Map;
-import com.tsp.gespro.util.FileManage;
 
 
 /**
@@ -138,7 +137,40 @@ public class UsuarioMonitorDAO {
     public List getLista()
     { 
         return lista(); 
-    }    
+    }
+    
+    private UsuarioMonitor autentificar(UsuarioMonitor monitor) 
+    {
+        UsuarioMonitor user = monitor;
+        final String sql = "from UsuarioMonitor where email = :email and password = :password";
+        List<UsuarioMonitor> res_user = null;
+        try{
+             iniciaOperacion();
+             res_user = sesion.createQuery(sql).setParameter("email", user.getEmail()).setParameter("password", user.getPassword()).list();
+             if(res_user!= null && res_user.get(0).getActivo()){
+                 user = (UsuarioMonitor) res_user.get(0);
+             } 
+        } 
+        finally
+        {
+            sesion.close();
+        }
+        return user;
+    }
+    public UsuarioMonitor handleAutentificacion(UsuarioMonitor monitor){
+        UsuarioMonitor user =null;
+        try{
+         user = autentificar(monitor);
+        }catch(Exception ex){
+            System.out.println("No se pudo realizar la autentificacion. Error: "+ ex.getMessage());
+        }
+        if(user != null && user.getActivo()){
+            monitor = user;
+        } else {
+            monitor.setNombre("Invalid");
+        }
+        return monitor;
+    }
      
     public void enviarCorreoConCredenciales(UsuarioMonitor obj){
         try {
