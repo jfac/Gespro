@@ -49,6 +49,7 @@
                 message = "<--EXITO-->" +"La actualización fue exitosa.";
                 status = true;
             }else{
+                obj.setIdUser(request.getParameter("idUser") != null ? Integer.parseInt(request.getParameter("idUser")): 0);
                 proyecto.guardar(obj);
                 message = "<--EXITO-->" + "Se guardó correctamente.";
                 status = true;

@@ -11,7 +11,10 @@ import com.tsp.gespro.hibernate.dao.ProductoDAO;
 import com.tsp.gespro.hibernate.pojo.Usuarios;
 import com.tsp.gespro.hibernate.pojo.Proyecto;
 import com.tsp.gespro.hibernate.dao.UsuariosDAO;
+import com.tsp.gespro.hibernate.pojo.Actividad;
+import com.tsp.gespro.hibernate.dao.ActividadDAO;
 import com.tsp.gespro.hibernate.dao.ProyectoDAO;
+import com.tsp.gespro.hibernate.pojo.Cobertura;
 import com.tsp.gespro.hibernate.pojo.Producto;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -22,9 +25,31 @@ public class Allservices {
     private static UsuariosDAO usuariosDAO;
     private static ProyectoDAO proyectoDAO;    
     private static ProductoDAO productoDAO;
+    private static ActividadDAO actividadDAO;
 
     public Allservices() {
     }
+    
+    public List queryCobertura(String where){  
+        
+            List<Cobertura> lista = null;  
+            Session session = null;
+
+        try 
+        { 
+            session = HibernateUtil.getSessionFactory().openSession(); 
+            Transaction tx = session.beginTransaction(); 
+            String query = "from Cobertura "+where;
+            lista = session.createQuery(query).list(); 
+        }
+        finally 
+        { 
+            session.close(); 
+        }  
+
+        return lista; 
+    }
+    
     
     public List QueryPromotorProyecto(String where){  
         
@@ -111,6 +136,26 @@ public class Allservices {
             session = HibernateUtil.getSessionFactory().openSession(); 
             Transaction tx = session.beginTransaction(); 
             String query = "from Producto "+where;
+            lista = session.createQuery(query).list(); 
+        }
+        finally 
+        { 
+            session.close(); 
+        }  
+
+        return lista; 
+    }
+    
+     public List QueryActividadDAO(String where){  
+        
+            List<Actividad> lista = null;  
+            Session session = null;
+
+        try 
+        { 
+            session = HibernateUtil.getSessionFactory().openSession(); 
+            Transaction tx = session.beginTransaction(); 
+            String query = "from Actividad "+where;
             lista = session.createQuery(query).list(); 
         }
         finally 
