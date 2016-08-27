@@ -29,7 +29,8 @@ if (user == null || !user.permissionToTopicByURL(request.getRequestURI().replace
         <!--- Inicialización de variables --->
         <jsp:useBean id="actividad" class="com.tsp.gespro.hibernate.dao.ActividadDAO"/>
         <jsp:useBean id="productoModel" class="com.tsp.gespro.hibernate.dao.ProductoDAO"/>
-        <jsp:useBean id="usuariosModel" class="com.tsp.gespro.hibernate.dao.UsuariosDAO"/>"/>
+        <jsp:useBean id="usuariosModel" class="com.tsp.gespro.hibernate.dao.UsuariosDAO"/>
+        <jsp:useBean id="puntoModel" class="com.tsp.gespro.hibernate.dao.PuntoDAO"/>
         <jsp:useBean id="services" class="com.tsp.gespro.Services.Allservices"/>
         
         <!--- @lista --->
@@ -92,7 +93,6 @@ if (user == null || !user.permissionToTopicByURL(request.getRequestURI().replace
                                             <th>descripcion</th>
                                             <th>Usuario</th>
                                             <th>Lugar</th>
-                                            <th>Avance</th>
                                             <th>Tipo</th>
                                             <th>Realizada</th>
                                             <th>Producto</th>
@@ -109,8 +109,8 @@ if (user == null || !user.permissionToTopicByURL(request.getRequestURI().replace
                                             <td>${item.descripcion}</td>
                                             <c:set var="user" value="${usuariosModel.getById(item.idUser)}"/>
                                             <td>${user.userName}</td>
-                                            <td>${item.idPunto}</td>
-                                            <td>${item.avance}</td>
+                                            <c:set var="punto" value="${puntoModel.getById(item.idPunto)}"/>
+                                            <td>${punto.lugar}</td>
                                             <td>${item.tipoActividad == 1 ? "Entrega" : "Actividad"}</td>
                                             <td>${item.checkin != null ? item.checkin  :"-"}</td>
                                             <c:set var="producto" value="${productoModel.getById(item.idProducto)}" />
@@ -121,9 +121,8 @@ if (user == null || !user.permissionToTopicByURL(request.getRequestURI().replace
                                                 <a href="${formulario}?idProyecto=${item.idProyecto}&id=${item.idActividad}"><img src="../../images/icon_edit.png" alt="editar" class="help" title="Editar"/></a>
                                                 <c:if test="${item.checkin == null}">
                                                     <a href="finish_task.jsp?id=${item.idActividad}&idProyecto=${item.idProyecto}" ><img src="../../images/icon_accept.png" alt="Terminar" class="help" title="Terminar"/></a>
-                                                    <a href="change_progress.jsp?id=${item.idActividad}&idProyecto=${item.idProyecto}" ><img src="../../images/icon_inventario.png" alt="Terminar" class="help" title="Añadir Avance"/></a>
                                                 </c:if>
-                                            </td>
+                                                </td>
                                           </tr>
                                        </c:forEach>
                                     </tbody>
